@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface ViewController : UITableViewController <CLLocationManagerDelegate> {
+#import "StopCell.h"
+
+@interface ViewController : UITableViewController <CLLocationManagerDelegate, UISearchBarDelegate> {
 	NSArray *stops;
 	CLLocationManager *locationManager;
 
@@ -20,11 +22,15 @@
 	NSInteger loadingStopId;
 	
 	NSDictionary *departures;
+	
+	StopCell *selectedCell;
 
 	NSTimer *departureTimeUpdateTimer;
+	
+	UISearchBar *searchBar;
+	
+	CLLocation *lastLocation;
+	NSString *filterString;
 }
-
-@property (nonatomic, retain) NSArray *stops;
-@property (nonatomic, retain) CLLocationManager *locationManager;
 
 @end

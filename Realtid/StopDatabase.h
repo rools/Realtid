@@ -23,6 +23,7 @@
 + (StopDatabase*)database;
 - (NSArray *)stopInfos;
 - (NSArray *)stopsWithLocation:(CLLocation *)location;
+- (NSArray *)stopsWithLocation:(CLLocation *)location andName:(NSString *)name;
 - (NSDictionary *)depaturesAtStop:(NSInteger)stop error:(NSError **)error;
 
 @end

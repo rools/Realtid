@@ -99,8 +99,27 @@ static StopDatabase *database_;
 
 - (NSArray *)stopsWithLocation:(CLLocation *)location {
     NSMutableArray *retval = [[NSMutableArray alloc] init];
-    NSString *query = [NSString stringWithFormat:@"SELECT id, name, latitude, longitude, ((longitude - %g)*(longitude - %g)*0.259 + (latitude - %g)*(latitude - %g)) as d FROM stops ORDER BY d LIMIT 40", location.coordinate.longitude, location.coordinate.longitude, location.coordinate.latitude, location.coordinate.latitude];
+    NSString *query = [NSString stringWithFormat:@"SELECT id, name, latitude, longitude, ((longitude - %g)*(longitude - %g)*0.259 + (latitude - %g)*(latitude - %g)) as d FROM stops_fts ORDER BY d LIMIT 40", location.coordinate.longitude, location.coordinate.longitude, location.coordinate.latitude, location.coordinate.latitude];
+	
+    sqlite3_stmt *statement;
+    if (sqlite3_prepare_v2(database_, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+        while (sqlite3_step(statement) == SQLITE_ROW) {
+            int uniqueId = sqlite3_column_int(statement, 0);
+            double distance = round([location distanceFromLocation:[[CLLocation alloc] initWithLatitude:sqlite3_column_double(statement, 2) longitude:sqlite3_column_double(statement, 3)]]);
+            char *nameChars = (char *) sqlite3_column_text(statement, 1);
+            NSString *name = [[NSString alloc] initWithUTF8String:nameChars];
+            Stop *info = [[Stop alloc] initWithUniqueId:uniqueId name:name distance:distance];
+            [retval addObject:info];
+        }
+        sqlite3_finalize(statement);
+    }
+    return retval;
+}
 
+- (NSArray *)stopsWithLocation:(CLLocation *)location andName:(NSString *)name {
+    NSMutableArray *retval = [[NSMutableArray alloc] init];
+    NSString *query = [NSString stringWithFormat:@"SELECT id, name, latitude, longitude, ((longitude - %g)*(longitude - %g)*0.259 + (latitude - %g)*(latitude - %g)) as d FROM stops_fts WHERE name MATCH '%@*' ORDER BY d LIMIT 40", location.coordinate.longitude, location.coordinate.longitude, location.coordinate.latitude, location.coordinate.latitude, name];
+	
     sqlite3_stmt *statement;
     if (sqlite3_prepare_v2(database_, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
         while (sqlite3_step(statement) == SQLITE_ROW) {
@@ -120,10 +139,22 @@ static StopDatabase *database_;
 	NSMutableDictionary *trafficTypes = [[NSMutableDictionary alloc] init];
 	
 	//NSError *error = nil;
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://mobil.sl.se/sv/Avgangar/Sok/?siteId=%i", stop]];
-	NSData *data = [NSData dataWithContentsOfURL:url];
 	
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://mobil.sl.se/sv/Avgangar/Sok/?siteId=%i", stop]];
+	NSData *data = [NSData dataWithContentsOfURL:url options:0 error:error];
+
+	if (*error)
+		return nil;
+
 	NSArray *trafficTypesDom = PerformHTMLXPathQuery(data, @"//ul[@class='traffic-types toggleable']/li/ul");
+
+	// If the DOM array is nil, a parse error occured
+	if (!trafficTypes) {
+		*error = [NSError errorWithDomain:@"net.rools.realtid" code:NSURLErrorCannotParseResponse userInfo:nil];
+		return nil;
+	}
+	
+	// TODO: check for MainPlaceHolder_ctl00_NoInformationLabel, to differentiate between 'no departures' and 'parse error'
 
 	// If we don't have any traffic types, the stop doesn't have any current departures
 	if ([trafficTypesDom count] == 0)
@@ -199,6 +230,7 @@ static StopDatabase *database_;
 		[trafficTypes setValue:groups forKey:typeName];
 	}
 	
+	// TODO: reenable sorting
 	// Sort departures
 	/*for (NSString *transportTypeName in trafficTypes) {
 		NSDictionary *groups = [trafficTypes objectForKey:transportTypeName];
