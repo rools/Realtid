@@ -497,11 +497,7 @@ const CGFloat MAX_DEPARTURES_PER_GROUP = 4;
 	else
 		stops = [[StopDatabase database] stopsWithLocation:lastLocation];
 	
-	/*NSLog(@"(1) self.tableView.contentSize.height: %f", self.tableView.contentSize.height);
 	[[self tableView] reloadData];
-	//[self.tableView sizeToFit];
-	NSLog(@"(2) self.tableView.contentSize.height: %f", self.tableView.contentSize.height);
-	//NSLog(@"self.tableView.frame.size.height: %f", self.tableView.frame.size.height);*/
 }
 
 @end
