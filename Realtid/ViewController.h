@@ -22,8 +22,6 @@
 	NSInteger loadingStopId;
 	
 	NSDictionary *departures;
-	
-	StopCell *selectedCell;
 
 	NSTimer *departureTimeUpdateTimer;
 	

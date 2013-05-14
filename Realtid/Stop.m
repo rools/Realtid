@@ -11,22 +11,8 @@
 
 @implementation Stop
 
-@synthesize uniqueId = _uniqueId;
-@synthesize distance = _distance;
-@synthesize name = _name;
-
-- (id)initWithUniqueId:(int)uniqueId name:(NSString *)name distance:(double)distance {
-    if ((self = [super init])) {
-        self.uniqueId = uniqueId;
-        self.distance = distance;
-        self.name = name;
-    }
-    return self;
-}
-
-- (void) dealloc {
-    self.name = nil;  
-    //[super dealloc];
-}
+@synthesize identifier;
+@synthesize name;
+@synthesize distance;
 
 @end

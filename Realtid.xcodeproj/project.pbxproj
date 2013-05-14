@@ -18,11 +18,12 @@
 		4C37629E172C352700113F50 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C37629D172C352700113F50 /* Default-568h@2x.png */; };
 		4C3762A1172C352700113F50 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3762A0172C352700113F50 /* ViewController.m */; };
 		4C3762A4172C352700113F50 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C3762A2172C352700113F50 /* ViewController.xib */; };
+		4C7F1E111742A56600A42CE9 /* Departure.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7F1E101742A56600A42CE9 /* Departure.m */; };
+		4C7F1E131742D2C000A42CE9 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C7F1E121742D2C000A42CE9 /* icon@2x.png */; };
+		4C7F1E151742D2C300A42CE9 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C7F1E141742D2C300A42CE9 /* icon.png */; };
 		4C98A283172C721F00BF64D4 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C98A282172C721F00BF64D4 /* CoreLocation.framework */; };
 		4C98A285172C72F500BF64D4 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C98A284172C72F500BF64D4 /* libsqlite3.dylib */; };
 		4C98A286172C731900BF64D4 /* StopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE1D3C4172C64EC0090BFA6 /* StopCell.m */; };
-		4C98A287172C731900BF64D4 /* Stop.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE1D3C2172C646D0090BFA6 /* Stop.m */; };
-		4C98A288172C731900BF64D4 /* StopDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE1D3BF172C53F10090BFA6 /* StopDatabase.m */; };
 		4C98A28A172C7F3100BF64D4 /* StopCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C98A28C172C7F3100BF64D4 /* StopCell.xib */; };
 		4C9F4F501730988500D13170 /* realtime.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 4C9F4F4F1730985500D13170 /* realtime.sqlite */; };
 		4CB70EB7172F4762000F41E7 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB70EB6172F4762000F41E7 /* libxml2.2.dylib */; };
@@ -35,6 +36,9 @@
 		4CF0E1E3173842CD00AAF533 /* tram.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CF0E1DB173842CD00AAF533 /* tram.png */; };
 		4CF0E1E4173842CD00AAF533 /* tram@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CF0E1DC173842CD00AAF533 /* tram@2x.png */; };
 		4CF0E1E5173842F000AAF533 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF0E1D41738423000AAF533 /* XPathQuery.m */; };
+		4CF2E182173FF5530065499E /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF2E181173FF5530065499E /* Util.m */; };
+		4CF2E184174021EE0065499E /* StopDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF2E183174021EE0065499E /* StopDatabase.m */; };
+		4CF2E186174022550065499E /* Stop.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF2E185174022550065499E /* Stop.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,15 +58,17 @@
 		4C37629F172C352700113F50 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		4C3762A0172C352700113F50 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		4C3762A3172C352700113F50 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
+		4C7F1E0F1742A56600A42CE9 /* Departure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Departure.h; sourceTree = "<group>"; };
+		4C7F1E101742A56600A42CE9 /* Departure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Departure.m; sourceTree = "<group>"; };
+		4C7F1E121742D2C000A42CE9 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "../icon@2x.png"; sourceTree = "<group>"; };
+		4C7F1E141742D2C300A42CE9 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = ../icon.png; sourceTree = "<group>"; };
 		4C98A282172C721F00BF64D4 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		4C98A284172C72F500BF64D4 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		4C98A28B172C7F3100BF64D4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/StopCell.xib; sourceTree = "<group>"; };
 		4C9F4F4F1730985500D13170 /* realtime.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = realtime.sqlite; sourceTree = "<group>"; };
 		4CB70EB6172F4762000F41E7 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		4CE1D3BE172C53F10090BFA6 /* StopDatabase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopDatabase.h; sourceTree = "<group>"; };
-		4CE1D3BF172C53F10090BFA6 /* StopDatabase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopDatabase.m; sourceTree = "<group>"; };
 		4CE1D3C1172C646D0090BFA6 /* Stop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stop.h; sourceTree = "<group>"; };
-		4CE1D3C2172C646D0090BFA6 /* Stop.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Stop.m; sourceTree = "<group>"; };
 		4CE1D3C3172C64EC0090BFA6 /* StopCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StopCell.h; sourceTree = "<group>"; };
 		4CE1D3C4172C64EC0090BFA6 /* StopCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StopCell.m; sourceTree = "<group>"; };
 		4CF0E1D31738423000AAF533 /* XPathQuery.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
@@ -75,6 +81,10 @@
 		4CF0E1DA173842CD00AAF533 /* train@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "train@2x.png"; path = "Images/train@2x.png"; sourceTree = "<group>"; };
 		4CF0E1DB173842CD00AAF533 /* tram.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tram.png; path = Images/tram.png; sourceTree = "<group>"; };
 		4CF0E1DC173842CD00AAF533 /* tram@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tram@2x.png"; path = "Images/tram@2x.png"; sourceTree = "<group>"; };
+		4CF2E180173FF5530065499E /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		4CF2E181173FF5530065499E /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
+		4CF2E183174021EE0065499E /* StopDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopDatabase.m; sourceTree = "<group>"; };
+		4CF2E185174022550065499E /* Stop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stop.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,15 +152,16 @@
 		4C37628D172C352700113F50 /* Realtid */ = {
 			isa = PBXGroup;
 			children = (
+				4C7F1E0E1742A54A00A42CE9 /* Types */,
 				4CF0E1D31738423000AAF533 /* XPathQuery.h */,
 				4CF0E1D41738423000AAF533 /* XPathQuery.m */,
+				4CF2E180173FF5530065499E /* Util.h */,
+				4CF2E181173FF5530065499E /* Util.m */,
 				4C9F4F4F1730985500D13170 /* realtime.sqlite */,
 				4CE1D3C3172C64EC0090BFA6 /* StopCell.h */,
 				4CE1D3C4172C64EC0090BFA6 /* StopCell.m */,
-				4CE1D3C1172C646D0090BFA6 /* Stop.h */,
-				4CE1D3C2172C646D0090BFA6 /* Stop.m */,
 				4CE1D3BE172C53F10090BFA6 /* StopDatabase.h */,
-				4CE1D3BF172C53F10090BFA6 /* StopDatabase.m */,
+				4CF2E183174021EE0065499E /* StopDatabase.m */,
 				4C376296172C352700113F50 /* AppDelegate.h */,
 				4C376297172C352700113F50 /* AppDelegate.m */,
 				4C37629F172C352700113F50 /* ViewController.h */,
@@ -169,12 +180,25 @@
 				4C376290172C352700113F50 /* InfoPlist.strings */,
 				4C376293172C352700113F50 /* main.m */,
 				4C376295172C352700113F50 /* Realtid-Prefix.pch */,
+				4C7F1E141742D2C300A42CE9 /* icon.png */,
+				4C7F1E121742D2C000A42CE9 /* icon@2x.png */,
 				4C376299172C352700113F50 /* Default.png */,
 				4C37629B172C352700113F50 /* Default@2x.png */,
 				4C37629D172C352700113F50 /* Default-568h@2x.png */,
 				4C0BAC2D1732F26E0011E3BA /* Images */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4C7F1E0E1742A54A00A42CE9 /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				4CE1D3C1172C646D0090BFA6 /* Stop.h */,
+				4CF2E185174022550065499E /* Stop.m */,
+				4C7F1E0F1742A56600A42CE9 /* Departure.h */,
+				4C7F1E101742A56600A42CE9 /* Departure.m */,
+			);
+			name = Types;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,6 +267,8 @@
 				4CF0E1E2173842CD00AAF533 /* train@2x.png in Resources */,
 				4CF0E1E3173842CD00AAF533 /* tram.png in Resources */,
 				4CF0E1E4173842CD00AAF533 /* tram@2x.png in Resources */,
+				4C7F1E131742D2C000A42CE9 /* icon@2x.png in Resources */,
+				4C7F1E151742D2C300A42CE9 /* icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,11 +281,13 @@
 			files = (
 				4CF0E1E5173842F000AAF533 /* XPathQuery.m in Sources */,
 				4C98A286172C731900BF64D4 /* StopCell.m in Sources */,
-				4C98A287172C731900BF64D4 /* Stop.m in Sources */,
-				4C98A288172C731900BF64D4 /* StopDatabase.m in Sources */,
 				4C376294172C352700113F50 /* main.m in Sources */,
 				4C376298172C352700113F50 /* AppDelegate.m in Sources */,
 				4C3762A1172C352700113F50 /* ViewController.m in Sources */,
+				4CF2E182173FF5530065499E /* Util.m in Sources */,
+				4CF2E184174021EE0065499E /* StopDatabase.m in Sources */,
+				4CF2E186174022550065499E /* Stop.m in Sources */,
+				4C7F1E111742A56600A42CE9 /* Departure.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

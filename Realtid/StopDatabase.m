@@ -9,6 +9,7 @@
 #import "XPathQuery.h"
 #import "StopDatabase.h"
 #import "Stop.h"
+#import "Departure.h"
 
 
 @implementation StopDatabase
@@ -22,23 +23,36 @@ static StopDatabase *database_;
     return database_;
 }
 
-- (NSDate *)dateFromTimeString:(NSString *)timeString {
+// Convert an HH:mm formatted time string to a date 
+- (NSDate *)dateFromTimeString:(NSString *)timeString currentDate:(NSDate *)currentDate {
 	NSDate *time = [timeDateFormatter dateFromString:timeString];
 	NSCalendar *calendar = [NSCalendar currentCalendar];
-	NSDateComponents *dateComponents = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:[NSDate date]];
+	NSDateComponents *dateComponents = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:currentDate];
 	NSDateComponents *timeComponents = [calendar components:NSHourCalendarUnit|NSMinuteCalendarUnit fromDate:time];
-	[dateComponents setHour:[timeComponents hour]];
-	[dateComponents setMinute:[timeComponents minute]];
-	[dateComponents setSecond:0];
-	return [calendar dateFromComponents:dateComponents];
+
+	dateComponents.hour = [timeComponents hour];
+	dateComponents.minute = [timeComponents minute];
+	dateComponents.second = 0;
+
+	NSDate *date = [calendar dateFromComponents:dateComponents];
+
+	// If the date is more than 12 hours in the past, assume the time stamp referes to a time tomorrow instead
+	if ([date timeIntervalSinceDate:currentDate] < -12 * 3600) {
+		NSDateComponents *oneDay = [[NSDateComponents alloc] init];
+		oneDay.day = 1;
+		date = [calendar dateByAddingComponents:oneDay toDate:date options:0];
+	}
+	
+	return date;
 }
 
+// Convert a time string (e.g. NU, XX min, HH:mm) to a date
 - (NSDate *)timeStringToDate:(NSString *)time currentDate:(NSDate *)currentDate {
 	if ([time isEqualToString:@"NU"])
 		return currentDate;
 
 	if ([departureTimeRegex firstMatchInString:time options:0 range:NSMakeRange(0, [time length])])
-		return [self dateFromTimeString:time];
+		return [self dateFromTimeString:time currentDate:currentDate];
 	
 	NSTextCheckingResult *match = [departureMinutesRegex firstMatchInString:time options:0 range:NSMakeRange(0, [time length])];
 
@@ -47,21 +61,15 @@ static StopDatabase *database_;
 		return [currentDate dateByAddingTimeInterval:(60 * minutes)];
 	}
 
-	assert(false);
-
 	return nil;
 }
 
 - (id)init {
     if ((self = [super init])) {
         NSString *sqLiteDb = [[NSBundle mainBundle] pathForResource:@"realtime" ofType:@"sqlite"];
-		
-		NSLog(@"Opening database");
-
-        if (sqlite3_open([sqLiteDb UTF8String], &database_) != SQLITE_OK) {
+        if (sqlite3_open([sqLiteDb UTF8String], &database_) != SQLITE_OK)
             NSLog(@"Failed to open stops database!");
-        }
-		
+
 		departureTimeRegex = [NSRegularExpression regularExpressionWithPattern:@"[0-9]{2}:[0-9]{2}" options:0 error:nil];
 		departureMinutesRegex = [NSRegularExpression regularExpressionWithPattern:@"([0-9]+) min" options:0 error:nil];
 		currentTimeRegex = [NSRegularExpression regularExpressionWithPattern:@"kl ([0-9]{2}:[0-9]{2})" options:0 error:nil];
@@ -77,69 +85,42 @@ static StopDatabase *database_;
     //[super dealloc];
 }
 
-- (NSArray *)stopInfos {
-    
-    NSMutableArray *retval = [[NSMutableArray alloc] init];
-    NSString *query = @"SELECT id, name FROM stops LIMIT 20";
-    sqlite3_stmt *statement;
-    if (sqlite3_prepare_v2(database_, [query UTF8String], -1, &statement, nil) 
-        == SQLITE_OK) {
-        while (sqlite3_step(statement) == SQLITE_ROW) {
-            int uniqueId = sqlite3_column_int(statement, 0);
-            char *nameChars = (char *) sqlite3_column_text(statement, 1);
-            NSString *name = [[NSString alloc] initWithUTF8String:nameChars];
-            Stop *info = [[Stop alloc] initWithUniqueId:uniqueId name:name distance:0];                        
-            [retval addObject:info];
-        }
-        sqlite3_finalize(statement);
-    }
-    return retval;
-    
-}
-
-- (NSArray *)stopsWithLocation:(CLLocation *)location {
-    NSMutableArray *retval = [[NSMutableArray alloc] init];
-    NSString *query = [NSString stringWithFormat:@"SELECT id, name, latitude, longitude, ((longitude - %g)*(longitude - %g)*0.259 + (latitude - %g)*(latitude - %g)) as d FROM stops_fts ORDER BY d LIMIT 40", location.coordinate.longitude, location.coordinate.longitude, location.coordinate.latitude, location.coordinate.latitude];
-	
-    sqlite3_stmt *statement;
-    if (sqlite3_prepare_v2(database_, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
-        while (sqlite3_step(statement) == SQLITE_ROW) {
-            int uniqueId = sqlite3_column_int(statement, 0);
-            double distance = round([location distanceFromLocation:[[CLLocation alloc] initWithLatitude:sqlite3_column_double(statement, 2) longitude:sqlite3_column_double(statement, 3)]]);
-            char *nameChars = (char *) sqlite3_column_text(statement, 1);
-            NSString *name = [[NSString alloc] initWithUTF8String:nameChars];
-            Stop *info = [[Stop alloc] initWithUniqueId:uniqueId name:name distance:distance];
-            [retval addObject:info];
-        }
-        sqlite3_finalize(statement);
-    }
-    return retval;
-}
-
 - (NSArray *)stopsWithLocation:(CLLocation *)location andName:(NSString *)name {
-    NSMutableArray *retval = [[NSMutableArray alloc] init];
-    NSString *query = [NSString stringWithFormat:@"SELECT id, name, latitude, longitude, ((longitude - %g)*(longitude - %g)*0.259 + (latitude - %g)*(latitude - %g)) as d FROM stops_fts WHERE name MATCH '%@*' ORDER BY d LIMIT 40", location.coordinate.longitude, location.coordinate.longitude, location.coordinate.latitude, location.coordinate.latitude, name];
+    NSMutableArray *stops = [[NSMutableArray alloc] init];
+
+	NSString *nameFilter = @"";
+	if (name.length > 0)
+		nameFilter = @"WHERE name MATCH ?";
+
+	NSString *query = [NSString stringWithFormat:@"SELECT id, name, latitude, longitude, ((longitude - ?) * (longitude - ?) * 0.259 + (latitude - ?) * (latitude - ?)) as d FROM stops_fts %@ ORDER BY d LIMIT 40", nameFilter];
 	
     sqlite3_stmt *statement;
-    if (sqlite3_prepare_v2(database_, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
-        while (sqlite3_step(statement) == SQLITE_ROW) {
-            int uniqueId = sqlite3_column_int(statement, 0);
-            double distance = round([location distanceFromLocation:[[CLLocation alloc] initWithLatitude:sqlite3_column_double(statement, 2) longitude:sqlite3_column_double(statement, 3)]]);
-            char *nameChars = (char *) sqlite3_column_text(statement, 1);
-            NSString *name = [[NSString alloc] initWithUTF8String:nameChars];
-            Stop *info = [[Stop alloc] initWithUniqueId:uniqueId name:name distance:distance];
-            [retval addObject:info];
+	if (sqlite3_prepare(database_, [query UTF8String], -1, &statement, NULL) == SQLITE_OK) {
+		sqlite3_bind_double(statement, 1, location.coordinate.longitude);
+		sqlite3_bind_double(statement, 2, location.coordinate.longitude);
+		sqlite3_bind_double(statement, 3, location.coordinate.latitude);
+		sqlite3_bind_double(statement, 4, location.coordinate.latitude);
+
+		if (name.length > 0)
+			sqlite3_bind_text(statement, 5, [[NSString stringWithFormat:@"%@*", name] UTF8String], -1, SQLITE_TRANSIENT);
+
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			Stop *stop = [Stop alloc];
+			stop.identifier = sqlite3_column_int(statement, 0);
+			stop.name = [[NSString alloc] initWithUTF8String:(const char *)sqlite3_column_text(statement, 1)];
+			stop.distance = round([location distanceFromLocation:[[CLLocation alloc] initWithLatitude:sqlite3_column_double(statement, 2) longitude:sqlite3_column_double(statement, 3)]]);
+
+            [stops addObject:stop];
         }
         sqlite3_finalize(statement);
-    }
-    return retval;
+	}
+
+    return stops;
 }
 
 - (NSDictionary *)depaturesAtStop:(NSInteger)stop error:(NSError **)error {
 	NSMutableDictionary *trafficTypes = [[NSMutableDictionary alloc] init];
-	
-	//NSError *error = nil;
-	
+
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://mobil.sl.se/sv/Avgangar/Sok/?siteId=%i", stop]];
 	NSData *data = [NSData dataWithContentsOfURL:url options:0 error:error];
 
@@ -175,17 +156,15 @@ static StopDatabase *database_;
 		
 		assert(match != nil);
 		
-		currentDate = [self dateFromTimeString:[time substringWithRange:[match rangeAtIndex:1]]];
+		currentDate = [self dateFromTimeString:[time substringWithRange:[match rangeAtIndex:1]] currentDate:[NSDate date]];
 	}
 
 	for (id typeDom in trafficTypesDom) {
 		// Get transport type (metro, buses etc.)
 		NSString *typeName;
 		for (NSDictionary *attribute in [typeDom objectForKey:@"nodeAttributeArray"]) {
-			if ([[attribute objectForKey:@"attributeName"] isEqualToString:@"id"]) {
-				//NSLog(@"type: %@", [attribute objectForKey:@"nodeContent"]);
+			if ([[attribute objectForKey:@"attributeName"] isEqualToString:@"id"])
 				typeName = [attribute objectForKey:@"nodeContent"];
-			}
 		}
 		assert(typeName != nil);
 
@@ -203,49 +182,51 @@ static StopDatabase *database_;
 			if ([typeName isEqualToString:@"TrainList"] && [groupName isEqualToString:@"Mot:"])
 				groupName = @"Pendeltåg";
 
+			// Create new group if it doesn't already exist in dictionary
 			NSMutableArray *departures = [groups objectForKey:groupName];
-			
-			if (!departures) {
+			if (!departures)
 				departures = [[NSMutableArray alloc] init];
-				[groups setValue:departures forKey:groupName];
-			}
 
 			for (NSDictionary *d in [[[groupDom objectForKey:@"nodeChildArray"] objectAtIndex:1] objectForKey:@"nodeChildArray"]) {
 				// This node can not contain a departure
 				if ([[d objectForKey:@"nodeChildArray"] count] < 3)
 					continue;
 
-				NSMutableDictionary *departure = [[NSMutableDictionary alloc] init];
-	
-				NSLog(@"%@ %@", [[[d objectForKey:@"nodeChildArray"] objectAtIndex:1] objectForKey:@"nodeContent"], [[[d objectForKey:@"nodeChildArray"] objectAtIndex:2] objectForKey:@"nodeContent"]);
-				
-				[departure setValue:[[[d objectForKey:@"nodeChildArray"] objectAtIndex:0] objectForKey:@"nodeContent"] forKey:@"line"];
-				[departure setValue:[[[d objectForKey:@"nodeChildArray"] objectAtIndex:1] objectForKey:@"nodeContent"] forKey:@"destination"];
-				NSDate *time = [self timeStringToDate:[[[d objectForKey:@"nodeChildArray"] objectAtIndex:2] objectForKey:@"nodeContent"] currentDate:currentDate];
-				[departure setValue:time forKey:@"time"];
+				Departure *departure = [Departure alloc];
+
+				departure.line = [[[d objectForKey:@"nodeChildArray"] objectAtIndex:0] objectForKey:@"nodeContent"];
+				departure.destination = [[[d objectForKey:@"nodeChildArray"] objectAtIndex:1] objectForKey:@"nodeContent"];
+				departure.time = [self timeStringToDate:[[[d objectForKey:@"nodeChildArray"] objectAtIndex:2] objectForKey:@"nodeContent"] currentDate:currentDate];
+
 				[departures addObject:departure];
 			}
+			
+			// Only save group if it is not empty
+			if ([departures count] > 0)
+				[groups setValue:departures forKey:groupName];
 		}
 		
 		[trafficTypes setValue:groups forKey:typeName];
 	}
 	
-	// TODO: reenable sorting
 	// Sort departures
-	/*for (NSString *transportTypeName in trafficTypes) {
-		NSDictionary *groups = [trafficTypes objectForKey:transportTypeName];
-		for (NSString *groupName in groups) {
+	NSMutableDictionary *sortedTrafficTypes = [[NSMutableDictionary alloc] init];
+	for (NSString *transportTypeName in trafficTypes) {
+		NSMutableDictionary *groups = [trafficTypes objectForKey:transportTypeName];
+		NSMutableDictionary *sortedGroups = [[NSMutableDictionary alloc] init];
+		for (NSString *groupName in groups) {			
 			NSArray *group = [groups objectForKey:groupName];
-			group = [group sortedArrayUsingComparator:^NSComparisonResult(NSDictionary *d1, NSDictionary *d2) {
-				NSDate *time1 = [d1 objectForKey:@"time"];
-				NSDate *time2 = [d2 objectForKey:@"time"];
-				return [time1 compare:time2];
+			group = [group sortedArrayUsingComparator:^NSComparisonResult(Departure *d1, Departure *d2) {
+				return [d1.time compare:d2.time];
 			}];
-			[groups setValue:group forKey:groupName];
+			
+			[sortedGroups setValue:group forKey:groupName];
 		}
-	}*/
 
-	return trafficTypes;
+		[sortedTrafficTypes setValue:sortedGroups forKey:transportTypeName];
+	}
+
+	return sortedTrafficTypes;
 }
 
 @end

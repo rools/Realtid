@@ -10,15 +10,13 @@
 
 
 @interface Stop : NSObject {
-    int uniqueId_;
-    double distance_;
-    NSString *name_;
+    NSInteger identifier;
+	NSString *name;
+	double distance;
 }
 
-@property (nonatomic, assign) int uniqueId;
-@property (nonatomic, assign) double distance;
-@property (nonatomic, copy) NSString *name;
-
-- (id)initWithUniqueId:(int)uniqueId name:(NSString *)name distance:(double)distance;
+@property (assign) NSInteger identifier;
+@property (assign) double distance;
+@property (copy) NSString *name;
 
 @end
