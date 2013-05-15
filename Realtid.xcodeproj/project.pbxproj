@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C1542E6174437C900456701 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4C1542E8174437C900456701 /* Localizable.strings */; };
 		4C376288172C352700113F50 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C376287172C352700113F50 /* UIKit.framework */; };
 		4C37628A172C352700113F50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C376289172C352700113F50 /* Foundation.framework */; };
 		4C37628C172C352700113F50 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C37628B172C352700113F50 /* CoreGraphics.framework */; };
@@ -42,6 +43,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4C1542E517442BD000456701 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4C1542E7174437C900456701 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		4C1542E9174437CF00456701 /* sv */ = {isa = PBXFileReference; lastKnownFileType = file; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4C376284172C352700113F50 /* Realtid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Realtid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C376287172C352700113F50 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4C376289172C352700113F50 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -176,6 +180,7 @@
 		4C37628E172C352700113F50 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4C1542E8174437C900456701 /* Localizable.strings */,
 				4C37628F172C352700113F50 /* Realtid-Info.plist */,
 				4C376290172C352700113F50 /* InfoPlist.strings */,
 				4C376293172C352700113F50 /* main.m */,
@@ -236,6 +241,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				sv,
 			);
 			mainGroup = 4C37627B172C352700113F50;
 			productRefGroup = 4C376285172C352700113F50 /* Products */;
@@ -269,6 +275,7 @@
 				4CF0E1E4173842CD00AAF533 /* tram@2x.png in Resources */,
 				4C7F1E131742D2C000A42CE9 /* icon@2x.png in Resources */,
 				4C7F1E151742D2C300A42CE9 /* icon.png in Resources */,
+				4C1542E6174437C900456701 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,10 +301,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		4C1542E8174437C900456701 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4C1542E7174437C900456701 /* en */,
+				4C1542E9174437CF00456701 /* sv */,
+			);
+			name = Localizable.strings;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		4C376290172C352700113F50 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				4C376291172C352700113F50 /* en */,
+				4C1542E517442BD000456701 /* sv */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -389,6 +407,7 @@
 				GCC_PREFIX_HEADER = "Realtid/Realtid-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = "Realtid/Realtid-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -403,6 +422,7 @@
 				GCC_PREFIX_HEADER = "Realtid/Realtid-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = "Realtid/Realtid-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;

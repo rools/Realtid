@@ -112,6 +112,14 @@ static NSDateFormatter *timeDateFormatter;
 	return height;
 }
 
++ (void)styleLabel:(UILabel *)label {
+	label.backgroundColor = [UIColor clearColor];
+	label.textColor = [UIColor whiteColor];
+	label.font = [UIFont fontWithName:@"Avenir Next Condensed" size:18];
+	label.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.1];
+	label.shadowOffset = CGSizeMake(-1, -1);
+}
+
 - (void)addView:(UIView *)view {
 	[addedViews addObject:view];
 	[self addSubview:view];
@@ -194,9 +202,8 @@ static NSDateFormatter *timeDateFormatter;
 				NSArray *group = [groups objectForKey:groupName];
 				
 				UILabel *destinationLabel = [[UILabel alloc] initWithFrame:CGRectMake(DEPARTURE_NAME_X, y, DEPARTURE_NAME_WIDTH, DEPARTURE_HEIGHT)];
-				destinationLabel.backgroundColor = [UIColor clearColor];
+				[StopCell styleLabel:destinationLabel];
 				destinationLabel.textColor = [UIColor colorWithWhite:1.0 alpha:0.6];
-				destinationLabel.font = [UIFont fontWithName:@"Avenir Next Condensed" size:18];
 				[destinationLabel setText:groupName];
 				[self addView:destinationLabel];
 				y += DEPARTURE_HEIGHT + DEPARTURE_SPACING;
@@ -217,17 +224,13 @@ static NSDateFormatter *timeDateFormatter;
 					// Destination label
 					NSString *destination = [NSString stringWithFormat:@"%@ %@", departure.line, departure.destination];
 					UILabel *destinationLabel = [[UILabel alloc] initWithFrame:CGRectMake(DEPARTURE_NAME_X, y, DEPARTURE_NAME_WIDTH, DEPARTURE_HEIGHT)];
-					destinationLabel.backgroundColor = [UIColor clearColor];
-					destinationLabel.textColor = [UIColor whiteColor];
-					destinationLabel.font = [UIFont fontWithName:@"Avenir Next Condensed" size:18];
+					[StopCell styleLabel:destinationLabel];
 					[destinationLabel setText:destination];
 					[self addView:destinationLabel];
 					
 					// Time label
 					UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(DEPARTURE_TIME_X, y, DEPARTURE_TIME_WIDTH, DEPARTURE_HEIGHT)];
-					timeLabel.backgroundColor = [UIColor clearColor];
-					timeLabel.textColor = [UIColor whiteColor];
-					timeLabel.font = [UIFont fontWithName:@"Avenir Next Condensed" size:18];
+					[StopCell styleLabel:timeLabel];
 					timeLabel.textAlignment = NSTextAlignmentRight;
 					[timeLabel setText:[StopCell formatTime:departure.time]];
 					[self addView:timeLabel];
@@ -248,9 +251,7 @@ static NSDateFormatter *timeDateFormatter;
 	} else {
 		// Currently no available departures for this stop
 		UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(MESSAGE_X, y, MESSAGE_WIDTH, MESSAGE_HEIGHT)];
-		messageLabel.backgroundColor = [UIColor clearColor];
-		messageLabel.textColor = [UIColor whiteColor];
-		messageLabel.font = [UIFont fontWithName:@"Avenir Next Condensed" size:18];
+		[StopCell styleLabel:messageLabel];
 		messageLabel.textAlignment = NSTextAlignmentCenter;
 		[messageLabel setText:@"Inga avgångar"];
 		[self addView:messageLabel];
@@ -258,7 +259,11 @@ static NSDateFormatter *timeDateFormatter;
 }
 
 + (StopCell *)cell {
-	return [[[NSBundle mainBundle] loadNibNamed:@"StopCell" owner:self options:nil] objectAtIndex:0];
+	NSBundle *bundle = [NSBundle mainBundle];
+	NSArray *array = [bundle loadNibNamed:@"StopCell" owner:self options:nil];
+	StopCell *c = [array objectAtIndex:0];
+	return c;
+	//return [[[NSBundle mainBundle] loadNibNamed:@"StopCell" owner:self options:nil] objectAtIndex:0];
 }
 
 @end

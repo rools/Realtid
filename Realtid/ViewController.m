@@ -99,7 +99,7 @@
 	searchBar.backgroundColor = [UIColor blackColor];
 	searchBar.barStyle = UIBarStyleBlack;
 	searchBar.backgroundImage = nil;
-	[searchBar setPlaceholder:@"Sök hållplats"];
+	[searchBar setPlaceholder:NSLocalizedString(@"Search stops", nil)];
 	[searchBar sizeToFit];
 	for (id view in searchBar.subviews) {
         if ([view isKindOfClass:NSClassFromString(@"UISearchBarBackground")]) {
@@ -228,23 +228,23 @@
 						NSString *title;
 						NSString *message;
 						
-						title = @"Laddning misslyckades";
+						title = NSLocalizedString(@"Loading failed", nil);
 						
 						switch (error.code) {
 							case NSFileReadUnknownError:
-								message = @"Telefonen verkar inte vara uppkopplad.";
+								message = NSLocalizedString(@"The phone does not seem to have a connection.", nil);
 								break;
 								
 							case NSURLErrorCannotParseResponse:
-								message = @"Fel med SL:s tjänst. Försök igen senare.";
+								message = NSLocalizedString(@"An error occurred with SL's services. Please try again later.", nil);
 								break;
 								
 							default:
-								message = @"Ett fel uppstod.";
+								message = NSLocalizedString(@"An error occurred.", nil);
 								break;
 						}
 						
-						UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+						UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil];
 						[alert show];
 					}
 					[tableView endUpdates];

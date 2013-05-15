@@ -1,0 +1,16 @@
+/* Search bar placeholder */
+"Search stops" = "Search stops";
+
+/* No departure label */
+"No departures" = "No departures";
+
+/* Error title */
+"Loading failed" = "Loading failed";
+
+/* Error messages */
+"The phone does not seem to have a connection." = "The phone does not seem to have a connection.";
+"An error occurred with SL's services. Please try again later." = "An error occurred with SL's services. Please try again later.";
+"An error occurred." = "An error occurred.";
+
+/* Dialog dismiss button */
+"OK" = "OK";

@@ -1,0 +1,16 @@
+/* Search bar placeholder */
+"Search stops" = "Sök hållplatser";
+
+/* No departure label */
+"No departures" = "Inga avgångar";
+
+/* Error title */
+"Loading failed" = "Laddning misslyckades";
+
+/* Error messages */
+"The phone does not seem to have a connection." = "Telefonen verkar inte vara uppkopplad.";
+"An error occurred with SL's services. Please try again later." = "Fel med SL:s tjänst. Försök igen senare.";
+"An error occurred." = "Ett fel uppstod.";
+
+/* Dialog dismiss button */
+"OK" = "OK";
