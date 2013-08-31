@@ -11,12 +11,8 @@
 		4C376288172C352700113F50 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C376287172C352700113F50 /* UIKit.framework */; };
 		4C37628A172C352700113F50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C376289172C352700113F50 /* Foundation.framework */; };
 		4C37628C172C352700113F50 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C37628B172C352700113F50 /* CoreGraphics.framework */; };
-		4C376292172C352700113F50 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4C376290172C352700113F50 /* InfoPlist.strings */; };
 		4C376294172C352700113F50 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C376293172C352700113F50 /* main.m */; };
 		4C376298172C352700113F50 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C376297172C352700113F50 /* AppDelegate.m */; };
-		4C37629A172C352700113F50 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C376299172C352700113F50 /* Default.png */; };
-		4C37629C172C352700113F50 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C37629B172C352700113F50 /* Default@2x.png */; };
-		4C37629E172C352700113F50 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C37629D172C352700113F50 /* Default-568h@2x.png */; };
 		4C3762A1172C352700113F50 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3762A0172C352700113F50 /* ViewController.m */; };
 		4C3762A4172C352700113F50 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C3762A2172C352700113F50 /* ViewController.xib */; };
 		4C7F1E111742A56600A42CE9 /* Departure.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7F1E101742A56600A42CE9 /* Departure.m */; };
@@ -43,15 +39,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4C1542E517442BD000456701 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		4C1542E7174437C900456701 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		4C1542E9174437CF00456701 /* sv */ = {isa = PBXFileReference; lastKnownFileType = file; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		4C1542E7174437C900456701 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		4C1542E9174437CF00456701 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4C376284172C352700113F50 /* Realtid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Realtid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C376287172C352700113F50 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4C376289172C352700113F50 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4C37628B172C352700113F50 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		4C37628F172C352700113F50 /* Realtid-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Realtid-Info.plist"; sourceTree = "<group>"; };
-		4C376291172C352700113F50 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4C376293172C352700113F50 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4C376295172C352700113F50 /* Realtid-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Realtid-Prefix.pch"; sourceTree = "<group>"; };
 		4C376296172C352700113F50 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -182,7 +176,6 @@
 			children = (
 				4C1542E8174437C900456701 /* Localizable.strings */,
 				4C37628F172C352700113F50 /* Realtid-Info.plist */,
-				4C376290172C352700113F50 /* InfoPlist.strings */,
 				4C376293172C352700113F50 /* main.m */,
 				4C376295172C352700113F50 /* Realtid-Prefix.pch */,
 				4C7F1E141742D2C300A42CE9 /* icon.png */,
@@ -259,10 +252,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C9F4F501730988500D13170 /* realtime.sqlite in Resources */,
-				4C376292172C352700113F50 /* InfoPlist.strings in Resources */,
-				4C37629A172C352700113F50 /* Default.png in Resources */,
-				4C37629C172C352700113F50 /* Default@2x.png in Resources */,
-				4C37629E172C352700113F50 /* Default-568h@2x.png in Resources */,
 				4C3762A4172C352700113F50 /* ViewController.xib in Resources */,
 				4C98A28A172C7F3100BF64D4 /* StopCell.xib in Resources */,
 				4CF0E1DD173842CD00AAF533 /* bus.png in Resources */,
@@ -309,15 +298,6 @@
 			);
 			name = Localizable.strings;
 			path = ..;
-			sourceTree = "<group>";
-		};
-		4C376290172C352700113F50 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4C376291172C352700113F50 /* en */,
-				4C1542E517442BD000456701 /* sv */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		4C3762A2172C352700113F50 /* ViewController.xib */ = {
@@ -384,8 +364,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -394,6 +374,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -417,7 +398,7 @@
 		4C3762A9172C352700113F50 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Realtid/Realtid-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
